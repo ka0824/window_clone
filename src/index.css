@@ -6,6 +6,10 @@
   .h-600px {
     height: 600px;
   }
+
+  .border-20px {
+    border-width: 20px;
+  }
 }
 
 @font-face {
@@ -62,4 +66,21 @@ pre {
 .fade-out {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
+}
+
+.spinner {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-icon {
+  animation: none;
 }
