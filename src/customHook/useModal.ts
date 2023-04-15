@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function useModal() {
+function useModal(): [boolean, () => void] {
   const [isShow, setIsShow] = useState(true);
 
   const handleClose = () => {
