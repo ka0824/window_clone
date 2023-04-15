@@ -1,6 +1,7 @@
 # Window clone
 ## 목차
 
+### [0. vercel 배포 링크](#vercel-배포-링크)
 ### [1. 프로젝트 소개 및 목적](#1-프로젝트-소개-및-목적)
 ### [2. 설치 방법](#2-설치-방법)  
 ### [3. 사용 방법](#3-사용-방법)  
@@ -8,6 +9,11 @@
 ### [5. 주요 기능](#5-주요-기능)  
 ### [6. 문제 해결](#6-문제-해결)
 ### [7. 폴더 구조](#7-폴더-구조)
+
+---
+## vercel 배포 링크
+
+### [vercel 배포 바로가기](https://window-clone.vercel.app/)
 
 ---
 
@@ -41,34 +47,23 @@ npm run preview
 ## 5. 주요 기능
 - 완성된 기능은 체크 표시하였습니다.
 <details>
-<summary>⬜ 소개화면</summary>
+<summary>✅  소개화면</summary>
 <div markdown="1">
 
-   - ⬜ 스크롤에 맞춰 글, 그림   <br />
-   - ⬜ 체험하기 버튼 누르면 윈도우 클론 서비스로 이동  <br />
-   - ⬜ 윈도우로 이동 누를 시 윈도우 로딩 띄우기  <br />
+   - ✅  스크롤에 맞춰 글, 그림   <br />
+   - ✅  체험하기 버튼 누르면 윈도우 클론 서비스로 이동  <br />
+   - ✅  윈도우로 이동 누를 시 윈도우 로딩 띄우기  <br />
 
 </div>
 </details>
 
 <details>
-<summary>⬜ 로그인</summary>
+<summary>✅  로그인</summary>
 <div markdown="1">
 
-   - ⬜ 회원가입 <br />
-   - ⬜ 체험하기 버튼 누르면 윈도우 클론 서비스로 이동 <br />
-   - ⬜ 윈도우로 이동 누를 시 윈도우 로딩 띄우기 <br />
-
-</div>
-</details>
-
-<details>
-<summary>⬜ 소개화면</summary>
-<div markdown="1">
-
-   - ⬜ 스크롤에 맞춰 글, 그림 바꾸기 <br />
-   - ⬜ 체험하기 버튼 누르면 윈도우 클론 서비스로 이동 <br />
-   - ⬜ 윈도우로 이동 누를 시 윈도우 로딩 띄우기 <br />
+   - ✅ 회원가입 <br />
+   - ✅ 로그인 <br />
+   - ✅ 체험용 로그인 기능 <br />
 
 </div>
 </details>
@@ -154,7 +149,43 @@ npm run preview
 
 ## 7. 폴더 구조
 ```
-├── public  
-├── src
-    └── assets
+📦src
+ ┣ 📂assets
+ ┃ ┣ 📂fonts
+ ┃ ┃ ┣ 📜SpoqaHanSansNeo-Bold.ttf
+ ┃ ┃ ┣ 📜SpoqaHanSansNeo-Light.ttf
+ ┃ ┃ ┣ 📜SpoqaHanSansNeo-Medium.ttf
+ ┃ ┃ ┣ 📜SpoqaHanSansNeo-Regular.ttf
+ ┃ ┃ ┗ 📜SpoqaHanSansNeo-Thin.ttf
+ ┃ ┗ 📜react.svg
+ ┣ 📂component
+ ┃ ┣ 📜Loading.tsx
+ ┃ ┗ 📜LoginModal.tsx
+ ┣ 📂customHook
+ ┃ ┣ 📜useCurrentTime.ts
+ ┃ ┣ 📜useLoading.ts
+ ┃ ┣ 📜useLogin.ts
+ ┃ ┣ 📜useModal.ts
+ ┃ ┗ 📜useScrollPostion.ts
+ ┣ 📂data
+ ┃ ┗ 📜infoData.ts
+ ┣ 📂firebase
+ ┃ ┗ 📜firebase.ts
+ ┣ 📂page
+ ┃ ┣ 📂info
+ ┃ ┃ ┣ 📜Footer.tsx
+ ┃ ┃ ┣ 📜Head.tsx
+ ┃ ┃ ┣ 📜Info.tsx
+ ┃ ┃ ┣ 📜Main.tsx
+ ┃ ┃ ┗ 📜Section.tsx
+ ┃ ┗ 📂service
+ ┃ ┃ ┣ 📜Clock.tsx
+ ┃ ┃ ┣ 📜Service.tsx
+ ┃ ┃ ┗ 📜Taskbar.tsx
+ ┣ 📂types
+ ┃ ┗ 📜index.ts
+ ┣ 📜App.tsx
+ ┣ 📜index.css
+ ┣ 📜main.tsx
+ ┗ 📜vite-env.d.ts   
 ```
