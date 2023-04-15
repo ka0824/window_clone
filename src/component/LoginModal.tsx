@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import Modal from "react-modal";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { LoginForm, SignUpForm } from "../types";
 import {
   getAuth,
@@ -19,7 +19,6 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    position: "fixed",
   },
 };
 
@@ -29,10 +28,10 @@ function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm();
-  const password = useRef(null);
+  } = useForm<SignUpForm>();
+  const password = useRef<string | null>(null);
   const auth = getAuth();
-  const onSubmit = (data: SignUpForm) => {
+  const onSubmit: SubmitHandler<SignUpForm> = (data) => {
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -47,7 +46,6 @@ function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
         console.log(errorCode, errorMessage);
       });
   };
-  password.current = watch("password", "");
 
   return (
     <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
@@ -127,7 +125,7 @@ function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
                 validate: (value) => {
                   console.log("password", password.current);
                   return (
-                    value === password.current ||
+                    value === watch("password", "") ||
                     "비밀번호가 일치하지 않습니다."
                   );
                 },
@@ -171,14 +169,16 @@ function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
 }
 
 function Login({ setIsSignUp }: { setIsSignUp: Function }) {
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit } = useForm<LoginForm>();
   const auth = getAuth();
 
   const onLogin = (data: LoginForm) => {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        localStorage.setItem("userEmail", user.email);
+        const userEmail = user.email || "";
+
+        localStorage.setItem("userEmail", userEmail);
         window.dispatchEvent(new Event("storage"));
         console.log("로그인 성공!", user);
       })
@@ -194,7 +194,8 @@ function Login({ setIsSignUp }: { setIsSignUp: Function }) {
     signInAnonymously(auth)
       .then((userCredential) => {
         const user = userCredential.user;
-        localStorage.setItem("userEmail", user.email);
+        const userEmail = user.email || "";
+        localStorage.setItem("userEmail", userEmail);
         window.dispatchEvent(new Event("storage"));
         console.log(user);
       })

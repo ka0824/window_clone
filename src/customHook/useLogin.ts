@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 function useLogin() {
   const [isLogin, setIsLogin] = useState(false);
 
-  function handleStorage(event) {
+  function handleStorage() {
     console.log(localStorage.getItem("userEmail"));
     setIsLogin(!!localStorage.getItem("userEmail"));
   }
@@ -11,7 +11,7 @@ function useLogin() {
   useEffect(() => {
     if (
       localStorage.getItem("userEmail") &&
-      localStorage.getItem("userEmail") !== "null"
+      localStorage.getItem("userEmail") !== ""
     ) {
       setIsLogin(true);
     }

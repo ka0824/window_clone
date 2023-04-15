@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import Modal from "react-modal";
 import Loading from "../../component/Loading";
 import LoginModal from "../../component/LoginModal";
 import useLoading from "../../customHook/useLoading";
@@ -22,7 +20,7 @@ function Service() {
         {!isLogin && (
           <LoginModal
             isShow={isShowLogin}
-            handleClose={handleCloseLogin}
+            handleClose={() => handleCloseLogin()}
           ></LoginModal>
         )}
       </div>
