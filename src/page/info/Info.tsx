@@ -6,6 +6,7 @@ import Section from "./Section";
 import useScrollPosition from "../../customHook/useScrollPostion";
 import infoData from "../../data/infoData";
 import { Link } from "react-router-dom";
+import Loading from "../../component/Loading";
 
 function Info() {
   const scrollPosition = useScrollPosition();
