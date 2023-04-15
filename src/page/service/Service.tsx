@@ -1,5 +1,6 @@
 import Loading from "../../component/Loading";
 import useLoading from "../../customHook/useLoading";
+import TaskBar from "./Taskbar";
 
 function Service() {
   const isLoading = useLoading();
@@ -9,8 +10,9 @@ function Service() {
   }
 
   return (
-    <div>
-      <div>서비스 페이지 입니다.</div>
+    <div className="w-screen h-screen flex flex-col">
+      <div className="bg-window flex-1"></div>
+      <TaskBar></TaskBar>
     </div>
   );
 }
