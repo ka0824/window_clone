@@ -10,6 +10,16 @@
   .border-20px {
     border-width: 20px;
   }
+
+  .bg-window {
+    background-image: url("https://user-images.githubusercontent.com/79782594/232187470-3a07d9db-c99e-4b51-af15-c8ffcf5744f5.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .bg-task {
+    background: rgb(209, 231, 240);
+  }
 }
 
 @font-face {
