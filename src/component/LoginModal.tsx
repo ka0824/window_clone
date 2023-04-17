@@ -194,10 +194,9 @@ function Login({ setIsSignUp }: { setIsSignUp: Function }) {
     signInAnonymously(auth)
       .then((userCredential) => {
         const user = userCredential.user;
-        const userEmail = user.email || "";
+        const userEmail = user.email || "guest";
         localStorage.setItem("userEmail", userEmail);
         window.dispatchEvent(new Event("storage"));
-        console.log(user);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -274,7 +273,11 @@ function LoginModal({
   const [isSignUp, setIsSignUp] = useState(false);
 
   return (
-    <Modal isOpen={isShow} style={customStyles}>
+    <Modal
+      isOpen={isShow}
+      style={customStyles}
+      overlayClassName="custom-overlay"
+    >
       {isSignUp ? (
         <SignUp setIsSignUp={setIsSignUp}></SignUp>
       ) : (
