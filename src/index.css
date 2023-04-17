@@ -20,6 +20,10 @@
   .bg-task {
     background: rgb(209, 231, 240);
   }
+
+  .context-shadow {
+    box-shadow: 3px 3px 5px 0px #808080;
+  }
 }
 
 @font-face {
@@ -93,4 +97,11 @@ pre {
 
 .spinner-icon {
   animation: none;
+}
+
+.custom-overlay {
+  z-index: 20;
+  position: fixed;
+  inset: 0px;
+  background-color: rgba(255, 255, 255, 0.75);
 }
