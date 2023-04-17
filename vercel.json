@@ -1,10 +1,5 @@
 {
-  "builds": [
-    {
-      "env": {
-        "CI": "1"
-      },
-      "command": "npm i --force && npm run build"
-    }
-  ]
+  "build": {
+    "command": "npm i --force && npm run build"
+  }
 }
