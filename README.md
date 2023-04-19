@@ -125,16 +125,6 @@ npm run preview
 </details>
 
 <details>
-<summary>⬜ 복수 파일 선택</summary>
-<div markdown="1">
-
-- ⬜ 드래그앤 드랍 <br />
-- ⬜ 삭제 <br />
-
-</div>
-</details>
-
-<details>
 <summary>⬜ 채팅</summary>
 <div markdown="1">
 
