@@ -59,26 +59,15 @@ npm run preview
 
 ## 5. 주요 기능
 
-<<<<<<< HEAD
-
-- 완성된 기능은 체크 표시하였습니다.
-    <details>
-    <summary>⬜ 소개화면</summary>
-    <div markdown="1">
-
-  - ⬜ 스크롤에 맞춰 글, 그림 <br />
-  - ⬜ 체험하기 버튼 누르면 윈도우 클론 서비스로 이동 <br />
-  - # ⬜ 윈도우로 이동 누를 시 윈도우 로딩 띄우기 <br />
-
-- 완성된 기능은 체크 표시하였습니다.
-  <details>
+- 완성된 기능은 체크 표시하였습니다.  
+ 
+<details>
   <summary>✅  소개화면</summary>
   <div markdown="1">
 
   - ✅ 스크롤에 맞춰 글, 그림 <br />
   - ✅ 체험하기 버튼 누르면 윈도우 클론 서비스로 이동 <br />
   - ✅ 윈도우로 이동 누를 시 윈도우 로딩 띄우기 <br />
-    > > > > > > > d0b2747c034d729b17407063b081e892c2966bd7
 
 </div>
 </details>
@@ -87,37 +76,20 @@ npm run preview
 <summary>✅  로그인</summary>
 <div markdown="1">
 
-<<<<<<< HEAD
-
-- ⬜ 회원가입 <br />
-- ⬜ 체험하기 버튼 누르면 윈도우 클론 서비스로 이동 <br />
-- ⬜ 윈도우로 이동 누를 시 윈도우 로딩 띄우기 <br />
+- ✅ 회원가입 <br />
+- ✅ 로그인 <br />
+- ✅ 체험용 로그인 기능 <br />
 
 </div>
 </details>
 
 <details>
-<summary>⬜ 소개화면</summary>
+<summary>✅ 단일 파일 선택</summary>
 <div markdown="1">
 
-- ⬜ 스크롤에 맞춰 글, 그림 바꾸기 <br />
-- ⬜ 체험하기 버튼 누르면 윈도우 클론 서비스로 이동 <br />
-- # ⬜ 윈도우로 이동 누를 시 윈도우 로딩 띄우기 <br />
-  - ✅ 회원가입 <br />
-  - ✅ 로그인 <br />
-  - ✅ 체험용 로그인 기능 <br />
-    > > > > > > > d0b2747c034d729b17407063b081e892c2966bd7
-
-</div>
-</details>
-
-<details>
-<summary>⬜ 단일 파일 선택</summary>
-<div markdown="1">
-
-- ⬜ 드래그앤 드랍 <br />
-- ⬜ 삭제 <br />
-- ⬜ 이름 바꾸기 <br />
+- ✅ 드래그앤 드랍 <br />
+- ✅ 삭제 <br />
+- ✅ 이름 바꾸기 <br />
 
 </div>
 </details>
