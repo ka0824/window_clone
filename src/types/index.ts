@@ -17,6 +17,7 @@ export type IconProps = {
   id: string;
   title: string;
   type: string;
+  handleContextMenuClose: Function;
 };
 
 export type IconState = {
@@ -25,6 +26,22 @@ export type IconState = {
   renamedIcon: string;
 };
 
+export type ProgramState = {
+  nextZIndex: number;
+  currentProgram: string;
+  executed: {
+    id: string;
+    title: string;
+    type: string;
+    zIndex: number;
+    pos: { x: number; y: number } | null;
+    isMinimize: boolean;
+  }[];
+};
+
+export type ProgramProps = ProgramState["executed"][number];
+
 export type RootState = {
   icon: IconState;
+  program: ProgramState;
 };

@@ -9,8 +9,6 @@ function useContextMenu() {
     event.preventDefault();
     setIsContextMenuOpen(true);
 
-    console.log(event.currentTarget.getBoundingClientRect().left);
-
     let xPos =
       event.clientX + 112 > window.innerWidth
         ? window.innerWidth - 112
