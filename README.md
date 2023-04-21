@@ -59,15 +59,15 @@ npm run preview
 
 ## 5. 주요 기능
 
-- 완성된 기능은 체크 표시하였습니다.  
- 
+- 완성된 기능은 체크 표시하였습니다.
+
 <details>
   <summary>✅  소개화면</summary>
   <div markdown="1">
 
-  - ✅ 스크롤에 맞춰 글, 그림 <br />
-  - ✅ 체험하기 버튼 누르면 윈도우 클론 서비스로 이동 <br />
-  - ✅ 윈도우로 이동 누를 시 윈도우 로딩 띄우기 <br />
+- ✅ 스크롤에 맞춰 글, 그림 <br />
+- ✅ 체험하기 버튼 누르면 윈도우 클론 서비스로 이동 <br />
+- ✅ 윈도우로 이동 누를 시 윈도우 로딩 띄우기 <br />
 
 </div>
 </details>
@@ -166,16 +166,23 @@ npm run preview
  ┃ ┃ ┗ 📜SpoqaHanSansNeo-Thin.ttf
  ┃ ┗ 📜react.svg
  ┣ 📂component
+ ┃ ┣ 📜ContextMenu.tsx
+ ┃ ┣ 📜IconList.tsx
  ┃ ┣ 📜Loading.tsx
  ┃ ┗ 📜LoginModal.tsx
  ┣ 📂customHook
+ ┃ ┣ 📜useContextMenu.ts
  ┃ ┣ 📜useCurrentTime.ts
+ ┃ ┣ 📜useGrid.ts
  ┃ ┣ 📜useLoading.ts
  ┃ ┣ 📜useLogin.ts
  ┃ ┣ 📜useModal.ts
+ ┃ ┣ 📜useProgramDrag.ts
  ┃ ┗ 📜useScrollPostion.ts
  ┣ 📂data
- ┃ ┗ 📜infoData.ts
+ ┃ ┣ 📜icons.tsx
+ ┃ ┣ 📜infoData.ts
+ ┃ ┗ 📜programs.tsx
  ┣ 📂firebase
  ┃ ┗ 📜firebase.ts
  ┣ 📂page
@@ -187,8 +194,22 @@ npm run preview
  ┃ ┃ ┗ 📜Section.tsx
  ┃ ┗ 📂service
  ┃ ┃ ┣ 📜Clock.tsx
+ ┃ ┃ ┣ 📜ProgramList.tsx
  ┃ ┃ ┣ 📜Service.tsx
  ┃ ┃ ┗ 📜Taskbar.tsx
+ ┣ 📂program
+ ┃ ┣ 📜Calculator.tsx
+ ┃ ┣ 📜Chat.tsx
+ ┃ ┣ 📜DinoGame.tsx
+ ┃ ┣ 📜Notice.tsx
+ ┃ ┣ 📜Test.tsx
+ ┃ ┗ 📜Typing.tsx
+ ┣ 📂store
+ ┃ ┣ 📂slice
+ ┃ ┃ ┣ 📜iconSlice.ts
+ ┃ ┃ ┗ 📜programSlice.ts
+ ┃ ┣ 📜rootReducer.ts
+ ┃ ┗ 📜store.ts
  ┣ 📂types
  ┃ ┗ 📜index.ts
  ┣ 📜App.tsx
