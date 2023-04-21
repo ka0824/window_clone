@@ -19,38 +19,15 @@ import useContextMenu from "../customHook/useContextMenu";
 import ContextMenu from "./ContextMenu";
 import useGrid from "../customHook/useGrid";
 import { IconProps, RootState } from "../types";
+import { execute } from "../store/slice/programSlice";
 
-function Icon({ title, type, id }: IconProps) {
+function Icon({ title, type, id, handleContextMenuClose }: IconProps) {
   const selectedIcon = useSelector(
     (state: RootState) => state.icon.selectedIcon
   );
   const renamedIcon = useSelector((state: RootState) => state.icon.renamedIcon);
   const dispatch = useDispatch();
-  // const {
-  //   isContextMenuOpen,
-  //   isRename,
-  //   menuPos,
-  //   handleContextMenuOpen,
-  //   handleContextMenuClose,
-  //   handleRenameOn,
-  //   handleRenameOff,
-  // } = useContextMenu();
   const iconRef = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   if (!selectedIcon.includes(id)) {
-  //     handleContextMenuClose();
-  //     handleRenameOff();
-  //   }
-  // }, [selectedIcon]);
-
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleOutside as EventListener);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleOutside as EventListener);
-  //   };
-  // }, []);
 
   function handleClick() {
     dispatch(selectSingleIcon(id));
@@ -70,11 +47,31 @@ function Icon({ title, type, id }: IconProps) {
     }
   }
 
+  function handleDoubleClick() {
+    dispatch(execute({ id, title, type }));
+  }
+
+  function handleOutside(e: MouseEvent) {
+    const target = e.target as Node;
+    if (iconRef.current && !iconRef.current.contains(target)) {
+      handleContextMenuClose();
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("click", handleOutside);
+
+    return () => {
+      window.removeEventListener("click", handleOutside);
+    };
+  });
+
   return (
     <div
       className="flex flex-col items-center justify-center w-20 h-20 group"
       onClick={handleClick}
       onContextMenu={handleContextMenu}
+      onDoubleClick={handleDoubleClick}
       ref={iconRef}
     >
       <div className="z-10 flex flex-col items-center justify-center">
@@ -153,7 +150,12 @@ function IconList() {
         >
           {displayedIcon.map((icon, idx) => (
             <GridItem key={`icon-${idx}`} onContextMenu={handleContextMenu}>
-              <Icon title={icon.title} id={icon.id} type={icon.type}></Icon>
+              <Icon
+                title={icon.title}
+                id={icon.id}
+                type={icon.type}
+                handleContextMenuClose={handleContextMenuClose}
+              ></Icon>
             </GridItem>
           ))}
         </GridDropZone>

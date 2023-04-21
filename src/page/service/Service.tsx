@@ -5,6 +5,7 @@ import TaskBar from "./Taskbar";
 import useLogin from "../../customHook/useLogin";
 import useModal from "../../customHook/useModal";
 import IconList from "../../component/IconList";
+import ProgramList from "./ProgramList";
 
 function Service() {
   const isLoading = useLoading();
@@ -18,6 +19,7 @@ function Service() {
   return (
     <div className="w-screen h-screen flex flex-col">
       <div className="bg-window flex-1 service-main flex">
+        <ProgramList></ProgramList>
         {!isLogin && (
           <LoginModal
             isShow={isShowLogin}
