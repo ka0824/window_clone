@@ -2,12 +2,8 @@ import { useState, useRef } from "react";
 import Modal from "react-modal";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { LoginForm, SignUpForm } from "../types";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInAnonymously,
-} from "firebase/auth";
+import { getAuth } from "firebase/auth";
+import { createUser, guestSignIn, signIn } from "../firebase/firebaseAuth";
 
 Modal.setAppElement("#root");
 
@@ -29,22 +25,30 @@ function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
     formState: { errors },
     watch,
   } = useForm<SignUpForm>();
-  const password = useRef<string | null>(null);
-  const auth = getAuth();
-  const onSubmit: SubmitHandler<SignUpForm> = (data) => {
-    createUserWithEmailAndPassword(auth, data.email, data.password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .then(() => {
-        setIsSignUp(false);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
+  const [error, setError] = useState("");
+
+  function forbiddenNick(value: string) {
+    if (value.includes("guest")) {
+      return "guest는 사용할 수 없습니다.";
+    }
+
+    return true;
+  }
+
+  const onSubmit: SubmitHandler<SignUpForm> = async (data) => {
+    const result = await createUser(data);
+
+    console.log(result.message);
+
+    if (result.message === "이미 존재하는 email 입니다.") {
+      return setError("이미 존재하는 email 입니다.");
+    }
+
+    if (result.message === "이미 존재하는 nickname 입니다.") {
+      return setError("이미 존재하는 nickname 입니다.");
+    }
+
+    return setIsSignUp(false);
   };
 
   return (
@@ -78,6 +82,48 @@ function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
           </p>
         )}
       </div>
+      <div className="flex">
+        <label htmlFor="nickname" className="w-24">
+          nickname
+        </label>
+        <Controller
+          name="nickname"
+          control={control}
+          defaultValue=""
+          rules={{
+            required: true,
+            pattern: /^(?=.*[a-zA-Z가-힣])(?=.*\d)[a-zA-Z가-힣\d]{4,12}$/,
+            minLength: 4,
+            maxLength: 12,
+            validate: forbiddenNick,
+          }}
+          render={({ field }) => (
+            <input className="w-36 border-b-2 mb-2" {...field} />
+          )}
+        />
+      </div>
+      {errors.nickname && errors.nickname.type === "required" && (
+        <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
+          nickname을 입력해주세요.
+        </p>
+      )}
+      {errors.nickname && errors.nickname.type === "pattern" && (
+        <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
+          올바른 닉네임을 입력해주세요
+        </p>
+      )}
+      {errors.nickname &&
+        (errors.nickname.type === "minLength" ||
+          errors.nickname.type === "maxLength") && (
+          <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
+            닉네임은 4~ 10자로 만들어 주세요.
+          </p>
+        )}
+      {errors.nickname && errors.nickname.type === "validate" && (
+        <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
+          guest는 사용할 수 없습니다.
+        </p>
+      )}
       <div className="flex flex-col">
         <div className="flex">
           <label htmlFor="password" className="w-24">
@@ -123,7 +169,6 @@ function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
               rules={{
                 required: true,
                 validate: (value) => {
-                  console.log("password", password.current);
                   return (
                     value === watch("password", "") ||
                     "비밀번호가 일치하지 않습니다."
@@ -152,6 +197,11 @@ function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
               </p>
             )}
         </div>
+        {error !== "" && (
+          <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
+            {error}
+          </p>
+        )}
       </div>
       <div className="flex mt-2 justify-end">
         <button
@@ -172,37 +222,12 @@ function Login({ setIsSignUp }: { setIsSignUp: Function }) {
   const { control, handleSubmit } = useForm<LoginForm>();
   const auth = getAuth();
 
-  const onLogin = (data: LoginForm) => {
-    signInWithEmailAndPassword(auth, data.email, data.password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        const userEmail = user.email || "";
-
-        localStorage.setItem("userEmail", userEmail);
-        window.dispatchEvent(new Event("storage"));
-        console.log("로그인 성공!", user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(`로그인 실패! (${errorCode}): ${errorMessage}`);
-      });
-    return data;
+  const onLogin = async (data: LoginForm) => {
+    await signIn(data);
   };
 
-  const onGuest = () => {
-    signInAnonymously(auth)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        const userEmail = user.email || "guest";
-        localStorage.setItem("userEmail", userEmail);
-        window.dispatchEvent(new Event("storage"));
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
+  const onGuest = async () => {
+    await guestSignIn();
   };
 
   return (

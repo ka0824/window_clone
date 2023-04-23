@@ -1,41 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IconState } from "../../types";
+import { SagaIterator } from "redux-saga";
+import { takeLatest, call, put } from "redux-saga/effects";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  QuerySnapshot,
+  DocumentData,
+} from "firebase/firestore";
+import { db } from "../../firebase/firebase";
+import { DisplayedIcon, IconState, UserIcon } from "../../types";
 
 const initialState: IconState = {
   selectedIcon: [],
-  displayedIcon: [
-    {
-      title: "테스트",
-      type: "test",
-      id: "test1",
-    },
-    {
-      title: "계산기",
-      type: "calculator",
-      id: "calculator1",
-    },
-    {
-      title: "채팅",
-      type: "chat",
-      id: "chat1",
-    },
-    {
-      title: "게시판",
-      type: "notice",
-      id: "notice1",
-    },
-    {
-      title: "타자 연습",
-      type: "typing",
-      id: "typing1",
-    },
-    {
-      title: "공룡 게임",
-      type: "dinoGame",
-      id: "dinoGame1",
-    },
-  ],
+  displayedIcon: [],
   renamedIcon: "",
+  loading: false,
 };
 
 const iconSlice = createSlice({
@@ -78,6 +59,18 @@ const iconSlice = createSlice({
     renameEnd(state) {
       state.renamedIcon = "";
     },
+    getIconStart(state) {
+      state.loading = true;
+    },
+    getIconSuccess(state, action) {
+      state.displayedIcon = action.payload;
+
+      state.loading = false;
+    },
+    getIconFail(state) {
+      state.displayedIcon = [];
+      state.loading = false;
+    },
   },
 });
 
@@ -89,6 +82,35 @@ export const {
   resetSelect,
   renameStart,
   renameEnd,
+  getIconStart,
+  getIconSuccess,
+  getIconFail,
 } = iconSlice.actions;
 
 export default iconSlice.reducer;
+
+export function* getIconSaga(): SagaIterator {
+  yield takeLatest(getIconStart.type, function* () {
+    try {
+      const result: QuerySnapshot<DocumentData> = yield call(
+        getDocs,
+        collection(db, "icon")
+      );
+
+      const icons: DisplayedIcon = [];
+
+      result.docs.map((doc) => {
+        const data = doc.data();
+        data.user.map((el: UserIcon) => {
+          if (el.name === "basic") {
+            icons.push(...el.content);
+          }
+        });
+      });
+
+      yield put(getIconSuccess(icons));
+    } catch (error) {
+      yield put(getIconFail());
+    }
+  });
+}
