@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AiFillWindows } from "react-icons/ai";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { BsSearch } from "react-icons/bs";
@@ -11,6 +11,7 @@ import {
   toggleMinimize,
 } from "../../store/slice/programSlice";
 import { RootState } from "../../types";
+import ProgramMenu from "./ProgramMenu";
 
 function TaskIcons() {
   const executed = useSelector((state: RootState) => state.program.executed);
@@ -76,10 +77,46 @@ function TaskIcons() {
 }
 
 function TaskBar() {
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const windowRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    window.addEventListener("click", handleOutside);
+
+    return () => {
+      window.removeEventListener("click", handleOutside);
+    };
+  }, []);
+
+  function handleOutside(e: MouseEvent) {
+    const target = e.target as Node;
+
+    if (
+      menuRef.current &&
+      windowRef.current &&
+      !menuRef.current.contains(target) &&
+      !windowRef.current.contains(target)
+    ) {
+      setShowMenu(false);
+    }
+  }
+
+  function handleMenu(e: React.MouseEvent) {
+    setShowMenu((prevState) => !prevState);
+  }
+
   return (
-    <div className="flex bg-task h-12 items-center px-2">
+    <div className="flex bg-task h-12 items-center relative">
+      {showMenu && (
+        <ProgramMenu menuRef={menuRef} setShowMenu={setShowMenu}></ProgramMenu>
+      )}
       <div className="flex">
-        <div className="flex justify-center items-center hover:bg-slate-100 h-12 hover:text-sky-500 px-4">
+        <div
+          className="flex justify-center items-center hover:bg-slate-100 h-12 hover:text-sky-500 px-4"
+          onClick={handleMenu}
+          ref={windowRef}
+        >
           <AiFillWindows size={36}></AiFillWindows>
         </div>
         <div className="flex justify-center items-center hover:bg-slate-100 h-12 px-4">

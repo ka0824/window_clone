@@ -132,6 +132,10 @@ function IconList() {
     handleContextMenuOpen(event);
   }
 
+  useEffect(() => {
+    console.log(displayedIcon);
+  }, [displayedIcon]);
+
   return (
     <div className="flex-1 overflow-x-hidden relative">
       {isContextMenuOpen && (

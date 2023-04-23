@@ -2,6 +2,7 @@ export type SignUpForm = {
   email: string;
   password: string;
   confirmPassword: string;
+  nickname: string;
 };
 
 export type LoginForm = {
@@ -24,6 +25,7 @@ export type IconState = {
   selectedIcon: string[];
   displayedIcon: { id: string; title: string; type: string }[];
   renamedIcon: string;
+  loading: Boolean;
 };
 
 export type ProgramState = {
@@ -37,6 +39,13 @@ export type ProgramState = {
     pos: { x: number; y: number } | null;
     isMinimize: boolean;
   }[];
+};
+
+export type DisplayedIcon = IconState["displayedIcon"];
+
+export type UserIcon = {
+  name: string;
+  content: DisplayedIcon;
 };
 
 export type ProgramProps = ProgramState["executed"][number];

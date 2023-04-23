@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@redux-saga/types": "^1.2.1",
     "@reduxjs/toolkit": "^1.9.4",
     "@types/react-modal": "^3.13.1",
     "dotenv": "^16.0.3",
@@ -23,7 +24,8 @@
     "react-modal": "^3.16.1",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.10.0",
-    "redux": "^4.2.1"
+    "redux": "^4.2.1",
+    "redux-saga": "^1.2.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
