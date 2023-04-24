@@ -78,3 +78,16 @@ export type MessageSend = {
 };
 
 export type ChatList = ChatType[];
+
+export type CommentType = {
+  writer: string;
+  content: string;
+};
+
+export type NoticeType = {
+  content: string;
+  writer: string;
+  title: string;
+  comment: CommentType[];
+  id?: string;
+};
