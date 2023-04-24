@@ -54,3 +54,27 @@ export type RootState = {
   icon: IconState;
   program: ProgramState;
 };
+
+export type UserInfo = {
+  uid: string;
+  nickname: string;
+};
+
+export type Message = {
+  sender: string;
+  content: string;
+};
+
+export type ChatType = {
+  chatter: string;
+  messages: Message[];
+};
+
+export type MessageSend = {
+  sender: string;
+  content: string;
+  chatWith: string;
+  id?: string;
+};
+
+export type ChatList = ChatType[];
