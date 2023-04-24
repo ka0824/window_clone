@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Modal from "react-modal";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { LoginForm, SignUpForm } from "../types";
@@ -37,8 +37,6 @@ function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
 
   const onSubmit: SubmitHandler<SignUpForm> = async (data) => {
     const result = await createUser(data);
-
-    console.log(result.message);
 
     if (result.message === "이미 존재하는 email 입니다.") {
       return setError("이미 존재하는 email 입니다.");
