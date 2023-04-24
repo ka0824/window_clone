@@ -1,18 +1,21 @@
 import {
   addDoc,
+  arrayUnion,
   collection,
+  doc,
   getDoc,
   getDocs,
   query,
+  setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
-import { db, firebase } from "./firebase";
+import { db } from "./firebase";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInAnonymously,
-  updateProfile,
   User,
 } from "firebase/auth";
 
@@ -36,8 +39,12 @@ async function updateNickname(user: User | null, nickname: string) {
     if (user === null) {
       throw new Error("User is null");
     }
+    const userDocRef = doc(users, user.uid);
 
-    await addDoc(users, { uid: user.uid, nickname: nickname });
+    await setDoc(userDocRef, {
+      uid: user.uid,
+      nickname: nickname,
+    });
   } catch (error) {
     throw error;
   }
@@ -92,6 +99,7 @@ async function signIn({
 }) {
   try {
     const auth = getAuth();
+
     const result = await signInWithEmailAndPassword(auth, email, password);
 
     const user = result.user;
@@ -120,20 +128,15 @@ async function createGuestNick(user: User) {
   try {
     const users = collection(db, "users");
     const result = await getDocs(
-      query(
-        users,
-        where("nickname", ">=", "guest"),
-        where("nickname", "<", "gest" + "\uf8ff")
-      )
+      query(users, where("nickname", ">=", "guest"))
     );
 
-    const nums = result.size;
+    const guestNums = result.size;
 
-    const nickname = `guest ${nums + 1}`;
+    const nickname = `guest ${guestNums + 1}`;
 
     await updateNickname(user, nickname);
     localStorage.setItem("nickname", nickname);
-    console.log("test");
   } catch (error) {
     throw error;
   }
@@ -159,6 +162,7 @@ async function findNick(user: User) {
 async function signOut() {
   try {
     const auth = getAuth();
+
     await auth.signOut();
 
     localStorage.removeItem("nickname");

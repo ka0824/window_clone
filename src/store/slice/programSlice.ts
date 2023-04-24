@@ -101,6 +101,9 @@ const programSlice = createSlice({
         }
       });
     },
+    closeAll: (state) => {
+      state.executed = [];
+    },
   },
 });
 
@@ -111,6 +114,7 @@ export const {
   handleCurrentProgram,
   handleZIndex,
   handlePos,
+  closeAll,
 } = programSlice.actions;
 
 export default programSlice.reducer;
