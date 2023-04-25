@@ -14,6 +14,8 @@ import useNoticeView from "../customHook/useNoticeView";
 type SetMenu = React.Dispatch<React.SetStateAction<string>>;
 type SetDataId = React.Dispatch<React.SetStateAction<string>>;
 
+// 댓글 한개를 렌더링하는 컴포넌트 입니다.
+
 function Comment({ data }: { data: CommentType }) {
   const { writer, content } = data;
 
@@ -24,6 +26,8 @@ function Comment({ data }: { data: CommentType }) {
     </div>
   );
 }
+
+// 댓글 목록을 렌더링하는 컴포넌트 입니다.
 
 function CommentList({
   dataId,
@@ -36,7 +40,6 @@ function CommentList({
     control,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -67,6 +70,8 @@ function CommentList({
   );
 }
 
+// 게시판 글을 조회할 때 렌더링 되는 컴포넌트 입니다.
+
 function ViewPost({ dataId }: { dataId: string }) {
   const noticeView = useNoticeView(dataId);
   const { title, content, comment, writer } = noticeView;
@@ -83,6 +88,8 @@ function ViewPost({ dataId }: { dataId: string }) {
   );
 }
 
+// 게시판 글을 작성할 때 렌더링 되는 컴포넌트 입니다.
+
 function Write({
   setMenu,
   setDataId,
@@ -94,7 +101,6 @@ function Write({
     control,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -138,6 +144,9 @@ function Write({
   );
 }
 
+// 게시판 제목, 작성자, 내용을 요약해서 보여주는 컴포넌트 입니다.
+// 게시판에서 작성된 글을 나열할 때 사용됩니다.
+
 function Brief({
   data,
   setMenu,
@@ -167,6 +176,8 @@ function Brief({
     </div>
   );
 }
+
+// 게시판에 작성된 글을 나열해서 보여줄 때 사용되는 컴포넌트입니다.
 
 function NoticeList({
   setMenu,
@@ -202,6 +213,10 @@ function NoticeList({
     </div>
   );
 }
+
+// 게시판의 가장 상위 컴포넌트 입니다.
+// menu는 현재 어떤 것을 보여줄 지를 관리합니다.
+// dataId는 게시판 글의 문서 id를 관리합니다.
 
 function Notice() {
   const [menu, setMenu] = useState("noticeList");

@@ -10,6 +10,8 @@ import { sendMessage } from "../firebase/firebaseChat";
 type SetMenu = React.Dispatch<React.SetStateAction<string>>;
 type SetChatWith = React.Dispatch<React.SetStateAction<string>>;
 
+// 현재 데이터 베이스에 저장된 유저의 목록을 보여주는 컴포넌트 입니다.
+
 function UserList({
   setMenu,
   setChatWith,
@@ -39,6 +41,9 @@ function UserList({
   );
 }
 
+// 유저의 정보를 담고 있는 컴포넌트 입니다.
+// UserList 컴포넌트 하위 컴포넌트 입니다.
+
 function User({
   nickname,
   setMenu,
@@ -60,6 +65,8 @@ function User({
     >{`${nickname}와의 대화`}</div>
   );
 }
+
+// 데이터 베이스에 현재 작성된 채팅의 목록을 보여주는 컴포넌트 입니다.
 
 function ChatList({
   setMenu,
@@ -84,6 +91,8 @@ function ChatList({
     </div>
   );
 }
+
+// ChatList의 하위 컴포넌트로, 각 채팅들의 정보를 담고 있는 컴포넌트 입니다.
 
 function ChatFolder({
   data,
@@ -117,6 +126,8 @@ function ChatFolder({
     </div>
   );
 }
+
+// 채팅방 화면을 보여주는 컴포넌트 입니다.
 
 function ChatRoom({ chatWith }: { chatWith: string }) {
   const { chatMessages, dataId } = useChatMessages(chatWith);
@@ -153,6 +164,8 @@ function ChatRoom({ chatWith }: { chatWith: string }) {
   );
 }
 
+// 채팅 입력 창 컴포넌트 입니다.
+
 function ChatInput({ chatWith, dataId }: { chatWith: string; dataId: string }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -180,6 +193,10 @@ function ChatInput({ chatWith, dataId }: { chatWith: string; dataId: string }) {
     </div>
   );
 }
+
+// Chat 프로그램의 가장 상위 컴포넌트 입니다.
+// menu는 어떤 내용을 렌더링할 지 결정하는 데에 사용됩니다.
+// chatWith은 채팅의 상대방이 누구인지를 저장합니다.
 
 function Chat() {
   const [menu, setMenu] = useState("userList");

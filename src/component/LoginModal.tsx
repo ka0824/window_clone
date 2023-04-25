@@ -2,7 +2,6 @@ import { useState } from "react";
 import Modal from "react-modal";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { LoginForm, SignUpForm } from "../types";
-import { getAuth } from "firebase/auth";
 import { createUser, guestSignIn, signIn } from "../firebase/firebaseAuth";
 
 Modal.setAppElement("#root");
@@ -18,7 +17,14 @@ const customStyles = {
   },
 };
 
-function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
+// 회원 가입할 때에 렌더링되는 컴포넌트 입니다.
+// react-hook-form을 사용하고 있습니다.
+
+function SignUp({
+  setShowSignUp,
+}: {
+  setShowSignUp: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const {
     control,
     handleSubmit,
@@ -29,24 +35,23 @@ function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
 
   function forbiddenNick(value: string) {
     if (value.includes("guest")) {
-      return "guest는 사용할 수 없습니다.";
+      return false;
     }
 
     return true;
   }
 
+  // 회원 정보 입력의 유효성 검사는 통과했으나, 값이 중복될 때를 오류를 알리는 과정을 포함합니다.
   const onSubmit: SubmitHandler<SignUpForm> = async (data) => {
     const result = await createUser(data);
 
     if (result.message === "이미 존재하는 email 입니다.") {
-      return setError("이미 존재하는 email 입니다.");
+      setError("이미 존재하는 email 입니다.");
+    } else if (result.message === "이미 존재하는 nickname 입니다.") {
+      setError("이미 존재하는 nickname 입니다.");
+    } else {
+      setShowSignUp(false);
     }
-
-    if (result.message === "이미 존재하는 nickname 입니다.") {
-      return setError("이미 존재하는 nickname 입니다.");
-    }
-
-    return setIsSignUp(false);
   };
 
   return (
@@ -204,7 +209,7 @@ function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
       <div className="flex mt-2 justify-end">
         <button
           className="bg-stone-300 hover:bg-stone-500 px-2 py-1 rounded-xl mr-2"
-          onClick={() => setIsSignUp(false)}
+          onClick={() => setShowSignUp(false)}
         >
           돌아가기
         </button>
@@ -216,9 +221,11 @@ function SignUp({ setIsSignUp }: { setIsSignUp: Function }) {
   );
 }
 
-function Login({ setIsSignUp }: { setIsSignUp: Function }) {
+// 로그인할 때에 렌더링되는 컴포넌트 입니다.
+// react-hook-form 라이브러리를 사용하고 있습니다.
+
+function Login({ setShowSignUp }: { setShowSignUp: Function }) {
   const { control, handleSubmit } = useForm<LoginForm>();
-  const auth = getAuth();
 
   const onLogin = async (data: LoginForm) => {
     await signIn(data);
@@ -265,7 +272,7 @@ function Login({ setIsSignUp }: { setIsSignUp: Function }) {
       <div className="flex mt-2 justify-end">
         <button
           className="bg-slate-300 hover:bg-slate-500 px-2 py-1 rounded-xl mr-2"
-          onClick={() => setIsSignUp(true)}
+          onClick={() => setShowSignUp(true)}
         >
           회원 가입
         </button>
@@ -286,14 +293,11 @@ function Login({ setIsSignUp }: { setIsSignUp: Function }) {
   );
 }
 
-function LoginModal({
-  isShow,
-  handleClose,
-}: {
-  isShow: boolean;
-  handleClose: Function;
-}) {
-  const [isSignUp, setIsSignUp] = useState(false);
+// 로그인 관련 모달을 다루는 컴포넌트 입니다.
+// showSignUp의 값에 따라 회원 가입 컴포넌트의 렌더링 여부가 결정됩니다.
+
+function LoginModal({ isShow }: { isShow: boolean }) {
+  const [showSignUp, setShowSignUp] = useState(false);
 
   return (
     <Modal
@@ -301,10 +305,10 @@ function LoginModal({
       style={customStyles}
       overlayClassName="custom-overlay"
     >
-      {isSignUp ? (
-        <SignUp setIsSignUp={setIsSignUp}></SignUp>
+      {showSignUp ? (
+        <SignUp setShowSignUp={setShowSignUp}></SignUp>
       ) : (
-        <Login setIsSignUp={setIsSignUp}></Login>
+        <Login setShowSignUp={setShowSignUp}></Login>
       )}
     </Modal>
   );

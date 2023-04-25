@@ -1,7 +1,7 @@
-import useCurrentTime from "../../customHook/useCurrentTime";
+import useCurrentDate from "../../customHook/useCurrentDate";
 
 function Clock() {
-  const currentTime = useCurrentTime();
+  const currentTime = useCurrentDate();
 
   return (
     <div className="select-none hover:bg-slate-100 h-12 flex items-center px-2">
