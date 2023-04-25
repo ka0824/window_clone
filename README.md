@@ -171,20 +171,28 @@ npm run preview
  ┃ ┣ 📜Loading.tsx
  ┃ ┗ 📜LoginModal.tsx
  ┣ 📂customHook
+ ┃ ┣ 📜useChatList.ts
+ ┃ ┣ 📜useChatMessages.ts
  ┃ ┣ 📜useContextMenu.ts
- ┃ ┣ 📜useCurrentTime.ts
+ ┃ ┣ 📜useCurrentDate.ts
  ┃ ┣ 📜useGrid.ts
  ┃ ┣ 📜useLoading.ts
  ┃ ┣ 📜useLogin.ts
  ┃ ┣ 📜useModal.ts
+ ┃ ┣ 📜useNoticeList.ts
+ ┃ ┣ 📜useNoticeView.ts
  ┃ ┣ 📜useProgramDrag.ts
- ┃ ┗ 📜useScrollPostion.ts
+ ┃ ┣ 📜useScrollPostion.ts
+ ┃ ┗ 📜useUserList.ts
  ┣ 📂data
  ┃ ┣ 📜icons.tsx
  ┃ ┣ 📜infoData.ts
  ┃ ┗ 📜programs.tsx
  ┣ 📂firebase
- ┃ ┗ 📜firebase.ts
+ ┃ ┣ 📜firebase.ts
+ ┃ ┣ 📜firebaseAuth.ts
+ ┃ ┣ 📜firebaseChat.ts
+ ┃ ┗ 📜firebaseNotice.ts
  ┣ 📂page
  ┃ ┣ 📂info
  ┃ ┃ ┣ 📜Footer.tsx
@@ -195,6 +203,7 @@ npm run preview
  ┃ ┗ 📂service
  ┃ ┃ ┣ 📜Clock.tsx
  ┃ ┃ ┣ 📜ProgramList.tsx
+ ┃ ┃ ┣ 📜ProgramMenu.tsx
  ┃ ┃ ┣ 📜Service.tsx
  ┃ ┃ ┗ 📜Taskbar.tsx
  ┣ 📂program
@@ -205,10 +214,13 @@ npm run preview
  ┃ ┣ 📜Test.tsx
  ┃ ┗ 📜Typing.tsx
  ┣ 📂store
+ ┃ ┣ 📂saga
+ ┃ ┃ ┗ 📜iconSaga.ts
  ┃ ┣ 📂slice
  ┃ ┃ ┣ 📜iconSlice.ts
  ┃ ┃ ┗ 📜programSlice.ts
  ┃ ┣ 📜rootReducer.ts
+ ┃ ┣ 📜rootSaga.ts
  ┃ ┗ 📜store.ts
  ┣ 📂types
  ┃ ┗ 📜index.ts
