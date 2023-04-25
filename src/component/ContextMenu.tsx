@@ -1,30 +1,25 @@
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import {
-  deleteSingleIcon,
-  renameSingleIcon,
-  renameStart,
-} from "../store/slice/iconSlice";
+import { deleteSingleIcon, renameStart } from "../store/slice/iconSlice";
 
 function ContextMenu({
   menuPos,
   handleContextMenuClose,
-  handleRenameOn,
 }: {
   menuPos: { x: number; y: number };
   handleContextMenuClose: () => void;
-  handleRenameOn: () => void;
 }) {
   const dispatch = useDispatch();
 
-  function handleRename() {
+  const handleRename = useCallback(() => {
     dispatch(renameStart());
     handleContextMenuClose();
-  }
+  }, [dispatch, handleContextMenuClose]);
 
-  function handleDelete() {
+  const handleDelete = useCallback(() => {
     dispatch(deleteSingleIcon());
     handleContextMenuClose();
-  }
+  }, [dispatch, handleContextMenuClose]);
 
   return (
     <div

@@ -12,7 +12,6 @@ import {
   changeDisplay,
   renameEnd,
   renameSingleIcon,
-  resetSelect,
   selectSingleIcon,
 } from "../store/slice/iconSlice";
 import useContextMenu from "../customHook/useContextMenu";
@@ -20,6 +19,8 @@ import ContextMenu from "./ContextMenu";
 import useGrid from "../customHook/useGrid";
 import { IconProps, RootState } from "../types";
 import { execute } from "../store/slice/programSlice";
+
+// 아이콘을 렌더링하는 컴포넌트 입니다.
 
 function Icon({ title, type, id, handleContextMenuClose }: IconProps) {
   const selectedIcon = useSelector(
@@ -33,9 +34,7 @@ function Icon({ title, type, id, handleContextMenuClose }: IconProps) {
     dispatch(selectSingleIcon(id));
   }
 
-  function handleContextMenu(
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) {
+  function handleContextMenu() {
     dispatch(selectSingleIcon(id));
   }
 
@@ -52,7 +51,7 @@ function Icon({ title, type, id, handleContextMenuClose }: IconProps) {
   }
 
   function handleOutside(e: MouseEvent) {
-    const target = e.target as Node;
+    const target = e.target as HTMLElement;
     if (iconRef.current && !iconRef.current.contains(target)) {
       handleContextMenuClose();
     }
@@ -64,7 +63,7 @@ function Icon({ title, type, id, handleContextMenuClose }: IconProps) {
     return () => {
       window.removeEventListener("click", handleOutside);
     };
-  });
+  }, []);
 
   return (
     <div
@@ -99,22 +98,20 @@ function Icon({ title, type, id, handleContextMenuClose }: IconProps) {
   );
 }
 
+// 아이콘 목록을 렌더링하는 컴포넌트 입니다.
+
 function IconList() {
   const displayedIcon = useSelector(
     (state: RootState) => state.icon.displayedIcon
   );
   const dispatch = useDispatch();
   const row = useGrid();
-  const [test, setTest] = useState(true);
 
   const {
     isContextMenuOpen,
-    isRename,
     menuPos,
     handleContextMenuOpen,
     handleContextMenuClose,
-    handleRenameOn,
-    handleRenameOff,
   } = useContextMenu();
 
   const onChange = (
@@ -142,7 +139,6 @@ function IconList() {
         <ContextMenu
           menuPos={menuPos}
           handleContextMenuClose={handleContextMenuClose}
-          handleRenameOn={handleRenameOn}
         ></ContextMenu>
       )}
       <GridContextProvider onChange={onChange}>
