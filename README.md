@@ -77,8 +77,12 @@ npm run preview
 <div markdown="1">
 
 - ✅ 회원가입 <br />
+  - ✅ 이메일, 비밀번호, 닉네임 유효성 검사 <br />
+  - ✅ 이메일, 닉네임 중복 방지 <br />
 - ✅ 로그인 <br />
 - ✅ 체험용 로그인 기능 <br />
+  - ✅ 체험용 로그인 했을 시 닉네임 'guest 숫자' 형식으로 부여 <br />
+- ✅ 로그아웃 <br />
 
 </div>
 </details>
@@ -105,6 +109,55 @@ npm run preview
 </details>
 
 <details>
+<summary>✅ 작업 표시줄</summary>
+<div markdown="1">
+
+- ✅ 날짜 표시 <br />
+- ✅ 현재 실행된 프로그램 표시 <br />
+- ✅ 창 최소화된 프로그램 클릭 시 프로그램 창 다시 띄우기 <br />
+- ✅ 창 최소화 되지 않은 프로그램 클릭 시 프로그램 창 최소화 <br />
+- ✅ 현재 실행되는 프로그램 색 다르게 표시 <br />
+
+</div>
+</details>
+
+<details>
+<summary>✅ 프로그램 창</summary>
+<div markdown="1">
+
+- ✅ 여러 프로그램 동시 실행 가능하게 하기 <br />
+- ✅ 드래그 해서 이동 기능 <br />
+- ✅ 프로그램 창 클릭시 해당 프로그램을 제일 최상단으로 옮기기 <br />
+
+</div>
+</details>
+
+<details>
+<summary>✅ 채팅</summary>
+<div markdown="1">
+
+- ✅ 현재 데이터 베이스에 저장된 유저 목록 가져오기 <br />
+- ✅ 과거 자신이 채팅했던 목록 불러오기 <br />
+- ✅ 실시간 채팅(채팅 입력 시 실시간 반영) <br />
+
+</div>
+</details>
+
+<details>
+<summary>✅ 게시판</summary>
+<div markdown="1">
+
+- ✅ 데이터 베이스에 저장된 게시판 글 목록 가져오기 <br />
+- ✅ 게시판 글 조회하기 <br />
+- ✅ 작성된 글 실시간 반영 (바로 조회 가능하게끔) <br />
+- ✅ 댓글 조회 <br />
+- ✅ 댓글 작성 <br />
+- ✅ 댓글 작성 실시간 반영 <br />
+
+</div>
+</details>
+
+<details>
 <summary>⬜ 계산기</summary>
 <div markdown="1">
 
@@ -120,16 +173,6 @@ npm run preview
 
 - ⬜ 정확도 표시 <br />
 - ⬜ 빠르기 표시 <br />
-
-</div>
-</details>
-
-<details>
-<summary>⬜ 채팅</summary>
-<div markdown="1">
-
-- ⬜ 기록 남기기 <br />
-- ⬜ 실시간 채팅 <br />
 
 </div>
 </details>
