@@ -1,4 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
+
+/**
+ * 컨텍스트 메뉴를 관리하기 위한 커스텀 훅입니다.
+ * isContextMenuOpen: 컨텍스트 메뉴가 열려 있는지 여부를 나타내는 상태값
+ * menuPos: 컨텍스트 메뉴의 위치를 나타내는 객체 { x, y}
+ * isRename: 파일 이름을 변경하는 중인지 여부를 나타내는 상태값
+ * @returns {object} 컨텍스트 메뉴 관련 상태값과 함수들을 가지고 있는 객체
+ */
 
 function useContextMenu() {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);

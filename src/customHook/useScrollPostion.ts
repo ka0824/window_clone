@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
 
+/**
+ * 현재 스크롤의 위치를 관리하는 커스텀 훅입니다.
+ * @returns {number} - 현재 스크롤 위치를 반환
+ */
+
 function useScrollPosition() {
   const [scrollPosition, setScrollPosition] = useState(0);
 
