@@ -20,12 +20,7 @@ function Service() {
     <div className="w-screen h-screen flex flex-col">
       <div className="bg-window flex-1 service-main flex">
         <ProgramList></ProgramList>
-        {!isLogin && (
-          <LoginModal
-            isShow={isShowLogin}
-            handleClose={() => handleCloseLogin()}
-          ></LoginModal>
-        )}
+        {!isLogin && <LoginModal isShow={isShowLogin}></LoginModal>}
         <IconList></IconList>
       </div>
       <TaskBar></TaskBar>
