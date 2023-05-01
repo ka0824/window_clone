@@ -17,7 +17,10 @@ function useUserList() {
       const result: UserInfo[] = [];
       snapshot.forEach((doc) => {
         const data = doc.data() as UserInfo;
-        result.push(data);
+
+        if (data.nickname !== localStorage.getItem("nickname")) {
+          result.push(data);
+        }
       });
       setUserList(result);
     });
