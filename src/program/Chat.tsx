@@ -167,7 +167,7 @@ function ChatRoom({ chatWith }: { chatWith: string }) {
 // 채팅 입력 창 컴포넌트 입니다.
 
 function ChatInput({ chatWith, dataId }: { chatWith: string; dataId: string }) {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   async function handleSubmit() {
     if (inputRef.current) {
@@ -181,9 +181,19 @@ function ChatInput({ chatWith, dataId }: { chatWith: string; dataId: string }) {
     }
   }
 
+  async function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      handleSubmit();
+    }
+  }
+
   return (
     <div className="flex flex-col">
-      <input className="h-12" ref={inputRef}></input>
+      <textarea
+        className="h-12 resize-none"
+        ref={inputRef}
+        onKeyDown={handleKeyDown}
+      ></textarea>
       <button
         className="bg-red-50 w-20 ml-auto mr-4 mb-2 mt-2"
         onClick={handleSubmit}
