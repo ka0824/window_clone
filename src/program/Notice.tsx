@@ -77,7 +77,7 @@ function ViewPost({ dataId }: { dataId: string }) {
   const { title, content, comment, writer } = noticeView;
 
   return (
-    <div className="flex flex-col p-2 oveflow-y-scroll">
+    <div className="flex flex-col p-2">
       <div className="mb-2 text-xl">{title}</div>
       <div className="mb-2 bg-blue-50 p-2">{writer}</div>
       <pre className="whitespace-pre-wrap break-all mb-2 border-b-2 p-2">
@@ -194,7 +194,7 @@ function NoticeList({
 
   return (
     <div className="flex flex-col w-76 h-full">
-      <div className="flex-1 overflow-y-scroll">
+      <div className="flex-1">
         {noticeList.map((notice, index) => (
           <Brief
             data={notice}
@@ -238,7 +238,7 @@ function Notice() {
       >
         <BsList size={32}></BsList>
       </button>
-      <div className="w-72 h-60">
+      <div className="w-72 h-60 overflow-y-scroll">
         {menu === "noticeList" && (
           <NoticeList setMenu={setMenu} setDataId={setDataId}></NoticeList>
         )}
