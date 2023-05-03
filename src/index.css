@@ -24,6 +24,10 @@
   .context-shadow {
     box-shadow: 3px 3px 5px 0px #808080;
   }
+
+  .w-200 {
+    width: 50rem;
+  }
 }
 
 @font-face {
