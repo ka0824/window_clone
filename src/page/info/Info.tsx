@@ -19,7 +19,7 @@ function Info() {
               key={`section-${index}`}
               scrollPosition={scrollPosition}
               standard={300 * index}
-              src={data.src}
+              imgs={data.imgs}
               title={data.title}
               content={data.content}
             ></Section>
