@@ -51,6 +51,7 @@ function SignUp({
       setError("이미 존재하는 nickname 입니다.");
     } else {
       setShowSignUp(false);
+      window.location.reload();
     }
   };
 
@@ -95,7 +96,7 @@ function SignUp({
           defaultValue=""
           rules={{
             required: true,
-            pattern: /^(?=.*[a-zA-Z가-힣])(?=.*\d)[a-zA-Z가-힣\d]{4,12}$/,
+            pattern: /^[a-zA-Z가-힣\d]{4,12}$/,
             minLength: 4,
             maxLength: 12,
             validate: forbiddenNick,
@@ -212,10 +213,12 @@ function Login({ setShowSignUp }: { setShowSignUp: Function }) {
 
   const onLogin = async (data: LoginForm) => {
     await signIn(data);
+    window.location.reload();
   };
 
   const onGuest = async () => {
     await guestSignIn();
+    window.location.reload();
   };
 
   return (

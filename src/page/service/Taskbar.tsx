@@ -111,6 +111,7 @@ function TaskBar() {
       {showMenu && (
         <ProgramMenu menuRef={menuRef} setShowMenu={setShowMenu}></ProgramMenu>
       )}
+
       <div className="flex">
         <div
           className="flex justify-center items-center hover:bg-slate-100 h-12 hover:text-sky-500 px-4"
@@ -128,6 +129,9 @@ function TaskBar() {
       <div className="flex">
         <span className="h-12 border-r-2 border-gray-300"></span>
         <Clock></Clock>
+      </div>
+      <div className="mr-4 bg-black text-white px-2 rounded-xl">
+        {localStorage.getItem("nickname")}
       </div>
     </div>
   );

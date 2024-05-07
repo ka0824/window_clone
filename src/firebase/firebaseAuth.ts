@@ -96,6 +96,7 @@ async function createUser({
 
       const user = userCredential.user;
 
+      localStorage.setItem("nickname", nickname);
       await updateNickname(user, nickname);
 
       return { message: "success" };

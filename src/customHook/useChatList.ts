@@ -12,23 +12,35 @@ function useChatList() {
   const [chatList, setChatList] = useState<ChatList>([]);
 
   useEffect(() => {
-    const queryTarget = query(
+    const nickname = localStorage.getItem("nickname");
+    const start = nickname;
+    const end = nickname + "\uf8ff";
+
+    const query1 = query(
       collection(db, "chat"),
-      where("chatter", ">=", localStorage.getItem("nickname")),
+      where("chatter", ">=", localStorage.getItem("nickname"))
+    );
+
+    const query2 = query(
+      collection(db, "chat"),
       where("chatter", "<=", localStorage.getItem("nickname") + "\uf8ff")
     );
-    const unsubscribe = onSnapshot(queryTarget, (snapshot) => {
-      const result: ChatList = [];
-      snapshot.forEach((doc) => {
-        const data = doc.data() as ChatType;
-        result.push(data);
-      });
 
-      setChatList(result);
+    const unsubscribe1 = onSnapshot(query1, (snapshot) => {
+      const result: any = [];
+      snapshot.forEach((doc) => result.push(doc.data()));
+      setChatList((prevList) => [...prevList, ...result]);
+    });
+
+    const unsubscribe2 = onSnapshot(query2, (snapshot) => {
+      const result: any = [];
+      snapshot.forEach((doc) => result.push(doc.data()));
+      setChatList((prevList) => [...prevList, ...result]);
     });
 
     return () => {
-      unsubscribe();
+      unsubscribe1();
+      unsubscribe2();
     };
   }, []);
 

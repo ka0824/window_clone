@@ -27,14 +27,16 @@ function UserList({
     <div className="w-full h-full bg-gray-100 rounded-lg shadow-lg p-4">
       <h2 className="text-2xl mb-4 font-bold">유저 목록</h2>
       <div className="overflow-y-auto h-96">
-        {filtered.map((user, idx) => (
-          <User
-            nickname={user.nickname}
-            key={`user-${idx}`}
-            setMenu={setMenu}
-            setChatWith={setChatWith}
-          />
-        ))}
+        {filtered
+          .sort((a: any, b: any) => a.nickname.localeCompare(b.nickname))
+          .map((user, idx) => (
+            <User
+              nickname={user.nickname}
+              key={`user-${idx}`}
+              setMenu={setMenu}
+              setChatWith={setChatWith}
+            />
+          ))}
       </div>
     </div>
   );
@@ -78,6 +80,8 @@ function ChatList({
   setChatWith: SetChatWith;
 }) {
   const chatList = useChatList();
+
+  console.log(chatList);
 
   return (
     <div className="w-full h-full bg-gray-100 rounded-lg shadow-lg p-4">
