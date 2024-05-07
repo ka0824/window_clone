@@ -56,9 +56,9 @@ function SignUp({
 
   return (
     <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col">
-        <div className="flex ">
-          <label htmlFor="email" className="w-24">
+      <div className="flex flex-col mb-4">
+        <div className="flex items-center mb-2">
+          <label htmlFor="email" className="w-24 mr-2 text-gray-600">
             E-mail
           </label>
           <Controller
@@ -70,24 +70,24 @@ function SignUp({
               pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
             }}
             render={({ field }) => (
-              <input className="w-36 border-b-2 mb-2" {...field} />
+              <input
+                className="flex-1 border-b-2 focus:outline-none focus:border-blue-500"
+                placeholder="이메일을 입력해주세요"
+                {...field}
+              />
             )}
           />
         </div>
         {errors.email && errors.email.type === "required" && (
-          <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
-            E-mail을 입력해주세요.
-          </p>
+          <p className="text-red-600 mb-2">E-mail을 입력해주세요.</p>
         )}
         {errors.email && errors.email.type === "pattern" && (
-          <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
-            올바른 E-mail을 입력해 주세요.
-          </p>
+          <p className="text-red-600 mb-2">올바른 E-mail을 입력해 주세요.</p>
         )}
       </div>
-      <div className="flex">
-        <label htmlFor="nickname" className="w-24">
-          nickname
+      <div className="flex items-center mb-4">
+        <label htmlFor="nickname" className="w-24 mr-2 text-gray-600">
+          Nickname
         </label>
         <Controller
           name="nickname"
@@ -101,120 +101,103 @@ function SignUp({
             validate: forbiddenNick,
           }}
           render={({ field }) => (
-            <input className="w-36 border-b-2 mb-2" {...field} />
+            <input
+              className="flex-1 border-b-2 focus:outline-none focus:border-blue-500"
+              placeholder="닉네임을 입력해주세요"
+              {...field}
+            />
           )}
         />
       </div>
       {errors.nickname && errors.nickname.type === "required" && (
-        <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
-          nickname을 입력해주세요.
-        </p>
+        <p className="text-red-600 mb-2">Nickname을 입력해주세요.</p>
       )}
       {errors.nickname && errors.nickname.type === "pattern" && (
-        <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
-          올바른 닉네임을 입력해주세요
-        </p>
+        <p className="text-red-600 mb-2">올바른 Nickname을 입력해주세요.</p>
       )}
       {errors.nickname &&
         (errors.nickname.type === "minLength" ||
           errors.nickname.type === "maxLength") && (
-          <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
-            닉네임은 4~ 10자로 만들어 주세요.
+          <p className="text-red-600 mb-2">
+            Nickname은 4~ 10자로 만들어 주세요.
           </p>
         )}
       {errors.nickname && errors.nickname.type === "validate" && (
-        <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
-          guest는 사용할 수 없습니다.
-        </p>
+        <p className="text-red-600 mb-2">Guest는 사용할 수 없습니다.</p>
       )}
-      <div className="flex flex-col">
-        <div className="flex">
-          <label htmlFor="password" className="w-24">
-            Password
-          </label>
-          <Controller
-            name="password"
-            control={control}
-            defaultValue=""
-            rules={{ required: true, minLength: 8, maxLength: 20 }}
-            render={({ field }) => (
-              <input
-                className="w-36 border-b-2 mb-2"
-                type="password"
-                {...field}
-              />
-            )}
-          />
-        </div>
-        {errors.password && errors.password.type === "required" && (
-          <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
-            암호는 8~ 20자로 만들어 주세요.
-          </p>
-        )}
-        {errors.password &&
-          (errors.password.type === "minLength" ||
-            errors.password.type === "maxLength") && (
-            <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
-              암호는 8~ 20자로 만들어 주세요.
-            </p>
+      <div className="flex items-center mb-4">
+        <label htmlFor="password" className="w-24 mr-2 text-gray-600">
+          Password
+        </label>
+        <Controller
+          name="password"
+          control={control}
+          defaultValue=""
+          rules={{ required: true, minLength: 8, maxLength: 20 }}
+          render={({ field }) => (
+            <input
+              className="flex-1 border-b-2 focus:outline-none focus:border-blue-500"
+              type="password"
+              placeholder="비밀번호를 입력해주세요"
+              {...field}
+            />
           )}
+        />
       </div>
-      <div className="flex relative flex-col">
-        <div className="flex flex-col">
-          <div className="flex items-center">
-            <label htmlFor="confirm-password" className="w-24">
-              Confirm Password
-            </label>
-            <Controller
-              name="confirmPassword"
-              control={control}
-              defaultValue=""
-              rules={{
-                required: true,
-                validate: (value) => {
-                  return (
-                    value === watch("password", "") ||
-                    "비밀번호가 일치하지 않습니다."
-                  );
-                },
-              }}
-              render={({ field }) => (
-                <input
-                  className="w-36 border-b-2 mb-2"
-                  type="password"
-                  {...field}
-                />
-              )}
-            ></Controller>
-          </div>
-          {errors.confirmPassword &&
-            errors.confirmPassword.type === "required" && (
-              <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
-                비밀번호 확인란을 입력해 주세요.
-              </p>
-            )}
-          {errors.confirmPassword &&
-            errors.confirmPassword.type === "validate" && (
-              <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
-                {errors.confirmPassword.message}
-              </p>
-            )}
-        </div>
-        {error !== "" && (
-          <p className="text-rose-500 bg-rose-100 py-1 px-2 rounded-xl mb-2">
-            {error}
-          </p>
+      {errors.password && errors.password.type === "required" && (
+        <p className="text-red-600 mb-2">암호를 입력해주세요.</p>
+      )}
+      {errors.password &&
+        (errors.password.type === "minLength" ||
+          errors.password.type === "maxLength") && (
+          <p className="text-red-600 mb-2">암호는 8~ 20자로 만들어 주세요.</p>
         )}
+      <div className="flex items-center mb-4">
+        <label htmlFor="confirm-password" className="w-24 mr-2 text-gray-600">
+          Confirm Password
+        </label>
+        <Controller
+          name="confirmPassword"
+          control={control}
+          defaultValue=""
+          rules={{
+            required: true,
+            validate: (value) => {
+              return (
+                value === watch("password", "") ||
+                "비밀번호가 일치하지 않습니다."
+              );
+            },
+          }}
+          render={({ field }) => (
+            <input
+              className="flex-1 border-b-2 focus:outline-none focus:border-blue-500"
+              type="password"
+              placeholder="비밀번호를 다시 입력해주세요"
+              {...field}
+            />
+          )}
+        />
       </div>
-      <div className="flex mt-2 justify-end">
+      {errors.confirmPassword && errors.confirmPassword.type === "required" && (
+        <p className="text-red-600 mb-2">비밀번호 확인을 입력해 주세요.</p>
+      )}
+      {errors.confirmPassword && errors.confirmPassword.type === "validate" && (
+        <p className="text-red-600 mb-2">{errors.confirmPassword.message}</p>
+      )}
+      {error !== "" && <p className="text-red-600 mb-2">{error}</p>}
+      <div className="flex justify-end">
         <button
-          className="bg-stone-300 hover:bg-stone-500 px-2 py-1 rounded-xl mr-2"
+          className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-6 rounded-md mr-2"
           onClick={() => setShowSignUp(false)}
         >
-          돌아가기
+          취소
         </button>
-        <button className="bg-slate-300 hover:bg-slate-500 px-2 py-1 rounded-xl mr-2">
-          회원 가입
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-md"
+          type="submit"
+        >
+          회원가입
         </button>
       </div>
     </form>
@@ -236,9 +219,9 @@ function Login({ setShowSignUp }: { setShowSignUp: Function }) {
   };
 
   return (
-    <form className="flex flex-col" onSubmit={handleSubmit(onLogin)}>
-      <div className="flex">
-        <label htmlFor="email" className="w-24">
+    <form className="flex flex-col space-y-4" onSubmit={handleSubmit(onLogin)}>
+      <div className="flex items-center">
+        <label htmlFor="email" className="w-24 mr-2 text-gray-600">
           E-mail
         </label>
         <Controller
@@ -247,12 +230,16 @@ function Login({ setShowSignUp }: { setShowSignUp: Function }) {
           defaultValue=""
           rules={{ required: true }}
           render={({ field }) => (
-            <input className="w-36 border-b-2 mb-2" {...field} />
+            <input
+              className="flex-1 border-b-2 focus:outline-none focus:border-blue-500"
+              placeholder="이메일을 입력해주세요."
+              {...field}
+            />
           )}
         />
       </div>
-      <div className="flex">
-        <label htmlFor="password" className="w-24">
+      <div className="flex items-center">
+        <label htmlFor="password" className="w-24 mr-2 text-gray-600">
           Password
         </label>
         <Controller
@@ -262,28 +249,33 @@ function Login({ setShowSignUp }: { setShowSignUp: Function }) {
           rules={{ required: true }}
           render={({ field }) => (
             <input
-              className="w-36 border-b-2 mb-2"
+              className="flex-1 border-b-2 focus:outline-none focus:border-blue-500"
               type="password"
+              placeholder="비밀번호를 입력해주세요."
               {...field}
             />
           )}
         />
       </div>
-      <div className="flex mt-2 justify-end">
+      <div className="flex justify-end items-center">
         <button
-          className="bg-slate-300 hover:bg-slate-500 px-2 py-1 rounded-xl mr-2"
+          className="text-sm text-gray-600 hover:text-gray-800 mr-2"
           onClick={() => setShowSignUp(true)}
         >
-          회원 가입
+          <span className="inline-block border-b border-transparent hover:border-gray-600 transition-colors duration-300">
+            회원가입
+          </span>
         </button>
         <button
-          className="bg-stone-300 hover:bg-stone-500 px-2 py-1 rounded-xl mr-2"
+          className="text-sm text-gray-600 hover:text-gray-800 mr-2"
           onClick={onGuest}
         >
-          임시 로그인
+          <span className="inline-block border-b border-transparent hover:border-gray-600 transition-colors duration-300">
+            임시 로그인
+          </span>
         </button>
         <button
-          className="bg-blue-300 hover:bg-blue-500 px-2 py-1 rounded-xl"
+          className="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600 transition-all duration-300"
           type="submit"
         >
           로그인

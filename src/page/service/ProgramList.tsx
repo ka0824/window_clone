@@ -68,14 +68,14 @@ function Program({ data }: { data: ProgramProps }) {
         draggable
       >
         <div
-          className="bg-blue-100 flex justify-end program-header"
+          className="bg-blue-100 h-8 flex justify-end program-header"
           onMouseDown={eventHandlers.handleMouseDown}
         >
           <button onClick={(e) => handleMinimize(e, data.id)}>
-            <VscChromeMinimize></VscChromeMinimize>
+            <VscChromeMinimize size={24}></VscChromeMinimize>
           </button>
           <button onClick={(e) => handleClose(e, data.id)}>
-            <IoClose></IoClose>
+            <IoClose size={24}></IoClose>
           </button>
         </div>
         <div className="flex-1">{programs[data.type]}</div>

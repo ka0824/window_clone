@@ -1,16 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { BsFillChatRightFill } from "react-icons/bs";
-import { HiUserGroup } from "react-icons/hi";
+import { HiUserCircle, HiUserGroup } from "react-icons/hi";
 import useChatList from "../customHook/useChatList";
 import { ChatType, Message } from "../types";
 import useUserList from "../customHook/useUserList";
 import useChatMessages from "../customHook/useChatMessages";
 import { sendMessage } from "../firebase/firebaseChat";
+import { AiOutlineMessage } from "react-icons/ai";
 
 type SetMenu = React.Dispatch<React.SetStateAction<string>>;
 type SetChatWith = React.Dispatch<React.SetStateAction<string>>;
-
-// 현재 데이터 베이스에 저장된 유저의 목록을 보여주는 컴포넌트 입니다.
 
 function UserList({
   setMenu,
@@ -25,24 +24,21 @@ function UserList({
   );
 
   return (
-    <div className="w-72">
-      <div className="p-2 text-xl">유저 목록</div>
-      <div className="h-60 overflow-y-scroll overflow-x-hidden">
+    <div className="w-full h-full bg-gray-100 rounded-lg shadow-lg p-4">
+      <h2 className="text-2xl mb-4 font-bold">유저 목록</h2>
+      <div className="overflow-y-auto h-96">
         {filtered.map((user, idx) => (
           <User
             nickname={user.nickname}
             key={`user-${idx}`}
             setMenu={setMenu}
             setChatWith={setChatWith}
-          ></User>
+          />
         ))}
       </div>
     </div>
   );
 }
-
-// 유저의 정보를 담고 있는 컴포넌트 입니다.
-// UserList 컴포넌트 하위 컴포넌트 입니다.
 
 function User({
   nickname,
@@ -60,13 +56,19 @@ function User({
 
   return (
     <div
-      className="w-72 h-20 p-2 hover:bg-blue-100"
+      className="flex items-center p-2 mb-2 hover:bg-gray-200 hover:text-gray-800 rounded-lg cursor-pointer transition duration-300"
       onDoubleClick={handleDoubleClick}
-    >{`${nickname}와의 대화`}</div>
+    >
+      <div className="flex items-center justify-center w-10 h-10 bg-gray-300 rounded-full mr-4">
+        <HiUserCircle className="text-gray-600" size={28} />
+      </div>
+      <div className="flex flex-col">
+        <div className="text-lg font-bold text-gray-800">{nickname}</div>
+        <div className="text-sm text-gray-500">대화 시작!</div>
+      </div>
+    </div>
   );
 }
-
-// 데이터 베이스에 현재 작성된 채팅의 목록을 보여주는 컴포넌트 입니다.
 
 function ChatList({
   setMenu,
@@ -78,21 +80,19 @@ function ChatList({
   const chatList = useChatList();
 
   return (
-    <div className="w-72">
-      <div className="p-2 text-xl">채팅 목록</div>
+    <div className="w-full h-full bg-gray-100 rounded-lg shadow-lg p-4">
+      <h2 className="text-2xl mb-4 font-bold">채팅방 목록</h2>
       {chatList.map((chat, idx) => (
         <ChatFolder
           key={`chatFolder-${idx}`}
           data={chat}
           setMenu={setMenu}
           setChatWith={setChatWith}
-        ></ChatFolder>
+        />
       ))}
     </div>
   );
 }
-
-// ChatList의 하위 컴포넌트로, 각 채팅들의 정보를 담고 있는 컴포넌트 입니다.
 
 function ChatFolder({
   data,
@@ -100,15 +100,13 @@ function ChatFolder({
   setChatWith,
 }: {
   data: ChatType;
-  setMenu: SetChatWith;
+  setMenu: SetMenu;
   setChatWith: SetChatWith;
 }) {
   const { chatter, messages } = data;
-
   const [person1, person2] = chatter.split("_");
   const partner =
     person1 === localStorage.getItem("nickname") ? person2 : person1;
-
   const lastMessage = messages[messages.length - 1].content;
 
   function handleDoubleClick() {
@@ -118,16 +116,22 @@ function ChatFolder({
 
   return (
     <div
-      className="h-20 w-72 flex flex-col p-2 hover:bg-blue-100"
+      className="flex items-center p-2 mb-2 hover:bg-gray-200 hover:text-gray-800 rounded-lg cursor-pointer transition duration-300"
       onDoubleClick={handleDoubleClick}
     >
-      <div>{partner}</div>
-      <div className="truncate mt-2">{lastMessage}</div>
+      <div className="flex items-center justify-center w-10 h-10 bg-gray-300 rounded-full mr-4">
+        <HiUserCircle className="text-gray-600" size={28} />
+      </div>
+      <div className="flex flex-col">
+        <div className="text-lg font-bold text-gray-800">{partner}</div>
+        <div className="text-sm text-gray-500">{lastMessage}</div>
+      </div>
+      <div className="ml-auto">
+        <AiOutlineMessage className="text-blue-500" size={24} />
+      </div>
     </div>
   );
 }
-
-// 채팅방 화면을 보여주는 컴포넌트 입니다.
 
 function ChatRoom({ chatWith }: { chatWith: string }) {
   const { chatMessages, dataId } = useChatMessages(chatWith);
@@ -140,21 +144,31 @@ function ChatRoom({ chatWith }: { chatWith: string }) {
   }, [chatMessages]);
 
   return (
-    <div className="w-72 flex flex-col">
-      <div>{chatWith}님과의 대화</div>
-      <div className="bg-blue-300 h-48 overflow-y-scroll" ref={chatRoomRef}>
-        {chatMessages.map((message: Message) => {
+    <div className="w-full h-[460px]  p-4 ">
+      <h2 className="text-2xl mb-4 font-bold">{chatWith}님과의 대화</h2>
+      <div className="h-[330px] overflow-y-auto">
+        {chatMessages.map((message: Message, index) => {
           if (message.sender === chatWith) {
             return (
-              <pre className="bg-white ml-1 mt-2 mb-2 p-2 mr-10 whitespace-pre-wrap break-all rounded-lg">
-                {message.content}
-              </pre>
+              <div
+                key={`${message.sender}_${index}`}
+                className="flex items-start mb-4"
+              >
+                <div className="bg-white p-3 rounded-lg max-w-2/3 break-words">
+                  {message.content}
+                </div>
+              </div>
             );
           } else {
             return (
-              <pre className="bg-yellow-300 mr-1 mt-2 mb-2 text-right min-w-10 p-2 ml-10 whitespace-pre-wrap break-all rounded-lg">
-                {message.content}
-              </pre>
+              <div
+                key={`${message.sender}_${index}`}
+                className="flex items-start justify-end mb-4"
+              >
+                <div className="bg-blue-200 p-3 rounded-lg max-w-2/3 break-words">
+                  {message.content}
+                </div>
+              </div>
             );
           }
         })}
@@ -163,8 +177,6 @@ function ChatRoom({ chatWith }: { chatWith: string }) {
     </div>
   );
 }
-
-// 채팅 입력 창 컴포넌트 입니다.
 
 function ChatInput({ chatWith, dataId }: { chatWith: string; dataId: string }) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -188,25 +200,21 @@ function ChatInput({ chatWith, dataId }: { chatWith: string; dataId: string }) {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex items-center mt-4">
       <textarea
-        className="h-12 resize-none"
+        className="resize-none flex-1 mr-4 p-2 rounded-lg border-2 border-gray-300"
         ref={inputRef}
         onKeyDown={handleKeyDown}
       ></textarea>
       <button
-        className="bg-red-50 w-20 ml-auto mr-4 mb-2 mt-2"
+        className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition-colors duration-300"
         onClick={handleSubmit}
       >
-        보내기
+        전송
       </button>
     </div>
   );
 }
-
-// Chat 프로그램의 가장 상위 컴포넌트 입니다.
-// menu는 어떤 내용을 렌더링할 지 결정하는 데에 사용됩니다.
-// chatWith은 채팅의 상대방이 누구인지를 저장합니다.
 
 function Chat() {
   const [menu, setMenu] = useState("userList");
@@ -217,39 +225,40 @@ function Chat() {
   }
 
   return (
-    <div className="flex h-72">
+    <div className="flex h-[500px] w-[600px] ">
       <div className="flex flex-col">
         <button
-          className={
-            menu !== "userList"
-              ? "p-2 hover:bg-gray-200 hover:text-blue-400 hover:cursor-default"
-              : "p-2 text-blue-400 hover:cursor-default"
-          }
+          className={`p-2 ${
+            menu === "userList"
+              ? "text-blue-400"
+              : "hover:bg-gray-200 hover:text-blue-400"
+          }`}
           data-name="userList"
           onClick={handleClick}
         >
-          <HiUserGroup size={32}></HiUserGroup>
+          <HiUserGroup size={32} />
         </button>
         <button
-          className={
-            menu !== "chatList"
-              ? "p-2 hover:bg-gray-200 hover:text-blue-400 hover:cursor-default"
-              : "p-2 text-blue-400 hover:cursor-default"
-          }
+          className={`p-2 ${
+            menu === "chatList"
+              ? "text-blue-400"
+              : "hover:bg-gray-200 hover:text-blue-400"
+          }`}
           data-name="chatList"
           onClick={handleClick}
         >
-          <BsFillChatRightFill size={32}></BsFillChatRightFill>
+          <BsFillChatRightFill size={32} />
         </button>
       </div>
-      <div className="flex flex-col"></div>
-      {menu === "userList" && (
-        <UserList setMenu={setMenu} setChatWith={setChatWith}></UserList>
-      )}
-      {menu === "chatList" && (
-        <ChatList setMenu={setMenu} setChatWith={setChatWith}></ChatList>
-      )}
-      {menu === "chatRoom" && <ChatRoom chatWith={chatWith}></ChatRoom>}
+      <div className="flex flex-col w-[640px] h-[500px] bg-gray-100">
+        {menu === "userList" && (
+          <UserList setMenu={setMenu} setChatWith={setChatWith} />
+        )}
+        {menu === "chatList" && (
+          <ChatList setMenu={setMenu} setChatWith={setChatWith} />
+        )}
+        {menu === "chatRoom" && <ChatRoom chatWith={chatWith} />}
+      </div>
     </div>
   );
 }

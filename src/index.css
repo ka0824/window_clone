@@ -113,3 +113,20 @@ pre {
 .program-overlay {
   pointer-events: auto;
 }
+
+::-webkit-scrollbar {
+  width: 10px; /* 스크롤바 너비 */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 스크롤바 트랙 배경색 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* 스크롤바 색 */
+  border-radius: 5px; /* 스크롤바 모양 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 마우스 오버 시 스크롤바 색 */
+}

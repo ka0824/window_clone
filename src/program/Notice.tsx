@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BsList } from "react-icons/bs";
+import { BsList, BsPencilSquare } from "react-icons/bs";
 import {
   useForm,
   Controller,
@@ -10,24 +10,23 @@ import useNoticeList from "../customHook/useNoticeList";
 import { CommentType, NoticeType } from "../types";
 import { addComment, postNotice } from "../firebase/firebaseNotice";
 import useNoticeView from "../customHook/useNoticeView";
+import { AiFillNotification } from "react-icons/ai";
 
 type SetMenu = React.Dispatch<React.SetStateAction<string>>;
 type SetDataId = React.Dispatch<React.SetStateAction<string>>;
-
-// 댓글 한개를 렌더링하는 컴포넌트 입니다.
 
 function Comment({ data }: { data: CommentType }) {
   const { writer, content } = data;
 
   return (
-    <div className="flex flex-col my-2">
-      <div className="bg-gray-100 mb-2">{writer}</div>
-      <pre>{content}</pre>
+    <div className="flex flex-col p-4 bg-gray-100 ">
+      <div className="text-sm text-gray-600 mb-4">작성자: {writer}</div>
+      <div className="rounded-lg shadow-md mb-4">
+        <pre className="p-4 text-gray-800 ">{content}</pre>
+      </div>
     </div>
   );
 }
-
-// 댓글 목록을 렌더링하는 컴포넌트 입니다.
 
 function CommentList({
   dataId,
@@ -47,11 +46,13 @@ function CommentList({
   };
 
   return (
-    <div className="flex flex-col">
-      <div>댓글</div>
-      {comment.map((element, index) => {
-        return <Comment data={element} key={`comment-${index}`}></Comment>;
-      })}
+    <div className="bg-gray-100 rounded-lg">
+      <div className="bg-gray-300 px-4 py-2 rounded-t-lg mb-4">
+        <h2 className="text-xl font-bold text-gray-800">댓글</h2>
+      </div>
+      {comment.map((element, index) => (
+        <Comment data={element} key={`comment-${index}`} />
+      ))}
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <Controller
           name="comment"
@@ -59,36 +60,42 @@ function CommentList({
           defaultValue=""
           rules={{ required: true }}
           render={({ field }) => (
-            <textarea className="border-2 mb-2 resize-none w-full" {...field} />
+            <textarea
+              className="border-2 mb-2 resize-none w-full p-2 rounded-lg"
+              placeholder="댓글을 작성하세요."
+              {...field}
+            />
           )}
-        ></Controller>
-        <div className="w-full flex">
-          <button className="bg-red-100 w-20 ml-auto">작성</button>
+        />
+        <div className="w-full flex justify-end">
+          <button className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition-colors duration-300">
+            작성
+          </button>
         </div>
       </form>
     </div>
   );
 }
 
-// 게시판 글을 조회할 때 렌더링 되는 컴포넌트 입니다.
-
 function ViewPost({ dataId }: { dataId: string }) {
   const noticeView = useNoticeView(dataId);
   const { title, content, comment, writer } = noticeView;
 
   return (
-    <div className="flex flex-col p-2">
-      <div className="mb-2 text-xl">{title}</div>
-      <div className="mb-2 bg-blue-50 p-2">{writer}</div>
-      <pre className="whitespace-pre-wrap break-all mb-2 border-b-2 p-2">
-        {content}
-      </pre>
-      <CommentList dataId={dataId} comment={comment}></CommentList>
+    <div className="flex flex-col p-4 bg-gray-100 rounded-lg shadow-lg">
+      <div className="bg-blue-200 px-4 py-2 rounded-t-lg mb-4">
+        <h2 className="text-xl font-bold text-gray-800">{title}</h2>
+      </div>
+
+      <div className="text-sm text-gray-600 mb-4">작성자: {writer}</div>
+
+      <div className="bg-white rounded-lg min-h-[200px] shadow-md mb-4">
+        <pre className="p-4 text-gray-800 ">{content}</pre>
+      </div>
+      <CommentList dataId={dataId} comment={comment} />
     </div>
   );
 }
-
-// 게시판 글을 작성할 때 렌더링 되는 컴포넌트 입니다.
 
 function Write({
   setMenu,
@@ -116,7 +123,7 @@ function Write({
 
   return (
     <form
-      className="w-76 flex flex-col h-full p-2"
+      className="flex flex-col h-full p-4 bg-gray-100 rounded-lg shadow-lg"
       onSubmit={handleSubmit(onSubmit)}
     >
       <Controller
@@ -126,7 +133,13 @@ function Write({
         rules={{
           required: true,
         }}
-        render={({ field }) => <input className="border-2 mb-2" {...field} />}
+        render={({ field }) => (
+          <input
+            className="border-2 mb-2 p-2 rounded-lg"
+            placeholder="제목을 입력하세요."
+            {...field}
+          />
+        )}
       />
       <Controller
         name="content"
@@ -136,16 +149,19 @@ function Write({
           required: true,
         }}
         render={({ field }) => (
-          <textarea className="flex-1 border-2 mb-2 resize-none" {...field} />
+          <textarea
+            className="flex-1 border-2 mb-2 p-2 resize-none rounded-lg"
+            placeholder="내용을 입력하세요."
+            {...field}
+          />
         )}
       />
-      <button className="bg-red-100 w-20 ml-auto">작성</button>
+      <button className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition-colors duration-300">
+        작성
+      </button>
     </form>
   );
 }
-
-// 게시판 제목, 작성자, 내용을 요약해서 보여주는 컴포넌트 입니다.
-// 게시판에서 작성된 글을 나열할 때 사용됩니다.
 
 function Brief({
   data,
@@ -165,19 +181,19 @@ function Brief({
 
   return (
     <div
-      className="flex hover:bg-gray-200 border-b-2"
+      className="flex bg-white  p-4 mb-2 hover:bg-gray-300 border-b-2 rounded-lg cursor-pointer shadow-md"
       onDoubleClick={handleDoubleClick}
     >
-      <div className="flex flex-col p-1">
-        <div className="w-40 truncate mb-2">{title}</div>
-        <div className="w-40 truncate">{content}</div>
+      <div className="flex flex-col mt-1">
+        <div className="w-32 truncate text-gray-600">{writer}</div>
       </div>
-      <div className="w-32 truncate mb-auto p-1">{writer}</div>
+      <div className="flex flex-col">
+        <div className="text-lg font-bold text-black mb-2">{title}</div>
+        <div className="text-sm text-gray-600">{content}</div>
+      </div>
     </div>
   );
 }
-
-// 게시판에 작성된 글을 나열해서 보여줄 때 사용되는 컴포넌트입니다.
 
 function NoticeList({
   setMenu,
@@ -193,8 +209,8 @@ function NoticeList({
   }
 
   return (
-    <div className="flex flex-col w-76 h-full">
-      <div className="flex-1">
+    <div className="flex flex-col w-ful h-full bg-gray-100 rounded-lg shadow-lg p-4 pr-0">
+      <div className="flex-1 overflow-y-auto pr-2">
         {noticeList.map((notice, index) => (
           <Brief
             data={notice}
@@ -205,18 +221,15 @@ function NoticeList({
         ))}
       </div>
       <button
-        className="bg-red-200 ml-auto mr-2 mb-2 mt-2 px-2 py-1"
+        className="bg-blue-500 text-white px-4 py-4 rounded-lg hover:bg-blue-600 transition duration-300 mr-2 flex justify-center "
         onClick={handleClick}
       >
+        <BsPencilSquare size={24} className="mr-2" />
         글쓰기
       </button>
     </div>
   );
 }
-
-// 게시판의 가장 상위 컴포넌트 입니다.
-// menu는 현재 어떤 것을 보여줄 지를 관리합니다.
-// dataId는 게시판 글의 문서 id를 관리합니다.
 
 function Notice() {
   const [menu, setMenu] = useState("noticeList");
@@ -227,7 +240,7 @@ function Notice() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex h-[500px] w-[600px]">
       <button
         className={
           menu !== "noticeList"
@@ -238,7 +251,7 @@ function Notice() {
       >
         <BsList size={32}></BsList>
       </button>
-      <div className="w-72 h-60 overflow-y-scroll">
+      <div className="w-[640px] h-[500px] overflow-y-scroll bg-gray-100">
         {menu === "noticeList" && (
           <NoticeList setMenu={setMenu} setDataId={setDataId}></NoticeList>
         )}
